@@ -1,7 +1,7 @@
 <template lang="pug">
   div.upload-files
     .panel.panel-default(:class="{'panel-primary': !disabled}")
-      .panel-heading Files
+      .panel-heading Datoteke
       .panel-body
         .empty-files-big-plus(:style="{cursor: disabled ? 'default' : 'pointer'}",
                   onclick="document.getElementById('fileInput').click();",
@@ -9,7 +9,7 @@
           a
             icon(name="plus", scale="4")
             br
-            |  Drop your files here
+            |  Odaberi datoteke koje želiš poslati
         table.table.table-striped
           tbody
             tr(v-for="file in files")
@@ -20,7 +20,7 @@
                   strong  {{ file.name }}
                   small  ({{ file.humanSize }})
                 p
-                  input.form-control.input-sm(type="text", placeholder="comment...", v-model="file.comment", :disabled="disabled")
+                  input.form-control.input-sm(type="text", placeholder="Ovdje napiši svoje ime i prezime", v-model="file.comment", :disabled="disabled")
                 .alert.alert-danger(v-if="file.error")
                   icon.fa-fw(name="exclamation-triangle")
                   |  {{ file.error }}

@@ -2,7 +2,7 @@
   .download-app
     a.btn.btn-sm.btn-info.btn-new-session(@click='newSession()', title='New Upload')
       icon.fa-fw(name="cloud-upload-alt")
-      span.hidden-xs  new upload
+      span.hidden-xs  Novo slanje
     .alert.alert-danger(v-show="error")
       strong
         icon.fa-fw(name="exclamation-triangle")
@@ -19,14 +19,11 @@
         |  decrypt
     .panel.panel-primary(v-if='!needsPassword')
       .panel-heading
-        strong Files
+        strong Datoteke
         div.pull-right.btn-group.btn-download-archive(v-if="downloadsAvailable")
           a.btn.btn-sm.btn-default(@click="downloadAll('zip')", title="Archive download is not resumeable!")
             icon.fa-fw(name="download")
-            |  zip
-          a.btn.btn-sm.btn-default(@click="downloadAll('tar.gz')", title="Archive download is not resumeable!")
-            icon.fa-fw(name="download")
-            |  tar.gz
+            |  Preuzmi
       .panel-body
         table.table.table-hover.table-striped
           tbody
@@ -35,11 +32,9 @@
                 file-icon(:file='file')
               td
                 div.pull-right.btn-group
-                  clipboard.btn.btn-sm.btn-default(:value='host + file.url', @change='copied(file, $event)', title='Copy to clipboard')
-                    a
-                      icon(name="copy")
                   a.btn.btn-sm.btn-default(title="Preview", @click.prevent.stop="preview=file", v-if="file.previewType")
                     icon(name="eye")
+                    |  Pogledaj
                 i.pull-right.fa.fa-check.text-success.downloaded(v-show='file.downloaded')
                 p
                   strong {{ file.metadata.name }}

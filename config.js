@@ -28,13 +28,14 @@ const config =  {
     "604800": "1 Week",
     "1209600": "2 Weeks",
     "2419200": "4 Weeks",
-    "4838400": "8 Weeks"
+    "4838400": "8 Weeks",
+    "31536000": "1 year"
   },
   // admin password, set to false to disable /admin page
-  "adminPass": false,
-  "defaultRetention": "604800",
+  "adminPass": true,
+  "defaultRetention": "31536000",
   // expire every file after maxAge (eg never downloaded one-time files)
-  "maxAge": 3600*24*75, // 75 days
+  "maxAge": 3600*24*365, // 75 days
   // maximum file-size for previews in byte
   "maxPreviewSize": Math.pow(2,20) * 2, // 2MB
   "mailTemplate": 'mailto:?subject=File Transfer&body=You can download the files here: %%URL%%',

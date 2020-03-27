@@ -2,22 +2,17 @@
   .upload-app#uploadApp
     a.btn.btn-sm.btn-info.btn-new-session(@click='newSession()', title='New Upload')
       icon.fa-fw(name="cloud-upload-alt")
-      span.hidden-xs  new upload
+      span.hidden-xs  Novo slanje
     .alert.alert-danger(v-show="error")
       strong
         icon.fa-fw(name="exclamation-triangle")
         |  {{ error }}
     .well(v-show="state === 'uploaded'")
-      .pull-right.btn-group
-        a.btn.btn-primary(:href="mailLnk")
-          icon.fa-fw(name="envelope")
-          |  Mail
-        clipboard.btn.btn-primary(:value='shareUrl')
       h3.text-success
         icon.fa-fw(name="check")
-        |  Upload completed
+        |  Datoteke su uspješno poslane
       div.share-link
-        span.title Download Link:
+        span.title Poveznica za preuzimanje:
         |
         a(:href='shareUrl') {{ shareUrl }}
     .row.overall-process(v-show="state === 'uploading'")
@@ -27,18 +22,18 @@
           .progress-bar.progress-bar-success.progress-bar-striped.active(:style="{width: percentUploaded+'%'}")
             span(v-show='percentUploaded>10') {{ percentUploaded }}%
     .row
-      .col-sm-7
+      .col-sm-12
         files
-      .col-sm-5
-        settings
+    .row
+      .col-sm-12
         .text-right(v-show='files.length && !disabled')
           button.btn.btn-lg.btn-success(@click="$store.dispatch('upload/upload')")
             icon.fa-fw(name="upload")
-            |  upload
+            |  Pošalji
         .text-right(v-show="state === 'uploadError'")
           button.btn.btn-lg.btn-success(@click="$store.dispatch('upload/upload')")
             icon.fa-fw(name="upload")
-            |  retry
+            |  Pokušaj ponovo
 </template>
 
 <script type="text/babel">
@@ -87,7 +82,7 @@
 
     methods: {
       newSession() {
-        if (!confirm('Create a new upload session?')) return;
+        if (!confirm('Želiš li poslati nove datoteke?')) return;
         document.location.reload();
       }
     }

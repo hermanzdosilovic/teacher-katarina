@@ -27,11 +27,11 @@
             th Downloaded
             th Expire
             th Size
-        template(v-for="(bucket, sid) in db")
+        template(v-for="sid in sortedSids")
           tbody(:class="{expanded: expand===sid}")
-            tr.bucket(@click="expandView(sid)")
+            tr.bucket
               td
-                | {{ sid }}
+                a(:href="'/' + sid", target="_blank") {{ sid }}
                 icon.pull-right(name="key", v-if="sum[sid].password", title="Password protected")
               td {{ sum[sid].created | date }}
               td
@@ -41,18 +41,6 @@
                 template(v-if="typeof sum[sid].firstExpire === 'number'") {{ sum[sid].firstExpire | date }}
                 template(v-else)  {{ sum[sid].firstExpire }}
               td.text-right {{ humanFileSize(sum[sid].size) }}
-          tbody.expanded(v-if="expand === sid")
-            template(v-for="file in bucket")
-              tr.file
-                td {{ file.metadata.name }}
-                td {{+file.metadata.createdAt | date}}
-                td
-                  template(v-if="file.metadata.lastDownload") {{ +file.metadata.lastDownload | date}}
-                  template(v-else="") -
-                td
-                  template(v-if="typeof file.expireDate === 'number'") {{ file.expireDate | date }}
-                  template(v-else) {{ file.expireDate }}
-                td.text-right {{ humanFileSize(file.size) }}
         tfoot
           tr
             td(colspan="3")
@@ -73,6 +61,7 @@
 
     data () {
       return {
+        sortedSids: [],
         db: {},
         sum: {},
         loggedIn: false,
@@ -99,6 +88,7 @@
           if(xhr.status === 200) {
             try {
               this.db = JSON.parse(xhr.responseText);
+              this.sortedSids = [];
               this.loggedIn = true;
               this.error = '';
               this.passwordWrong = false;
@@ -118,6 +108,7 @@
       expandDb() {
         this.sizeSum = 0;
         Object.keys(this.db).forEach(sid => {
+          this.sortedSids.push(sid);
           const bucketSum = {
             firstExpire: Number.MAX_SAFE_INTEGER,
             lastDownload: 0,
@@ -148,6 +139,9 @@
           this.sizeSum += bucketSum.size;
           this.$set(this.sum, sid, bucketSum);
         });
+
+        var sum = this.sum;
+        this.sortedSids.sort(function (a, b) { return sum[b].created - sum[a].created });
       },
 
       humanFileSize(fileSizeInBytes) {
